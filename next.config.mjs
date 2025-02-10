@@ -1,11 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
-  basePath: "/2025_SDA_20213TN126_validar_entrada_prod",
+  output: 'export',
+  basePath: '/2025_SDA_20213TN126_validar_entrada_prod',
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
-  // Asegúrate de que no haya una propiedad 'experimental'
+  assetPrefix: '/2025_SDA_20213TN126_validar_entrada_prod/',
+  trailingSlash: true,
+  distDir: 'out',
 };
 
 export default nextConfig;
