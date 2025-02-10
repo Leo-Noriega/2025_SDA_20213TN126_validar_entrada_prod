@@ -11,28 +11,28 @@ import TextInputLiveFeedback from "./TextInputLiveFeedback";
 
 const validationSchema = Yup.object({
   name: Yup.string()
-    .min(3, 'Debe tener al menos 3 caracteres')
-    .required('La razón social es requerida'),
+    .min(3, "Debe tener al menos 3 caracteres")
+    .required("La razón social es requerida"),
   rfc: Yup.string()
-    .length(12, 'Debe tener exactamente 12 caracteres')
-    .transform(value => value.toUpperCase())
+    .length(12, "Debe tener exactamente 12 caracteres")
+    .transform((value) => value.toUpperCase())
     .matches(
       /^[A-Z]{3}[0-9]{6}[A-Z0-9]{3}$/,
-      'Formato inválido: 3 letras + 6 números + 3 caracteres alfanuméricos'
+      "Formato inválido: 3 letras + 6 números + 3 caracteres alfanuméricos",
     )
-    .required('El RFC es requerido'),
+    .required("El RFC es requerido"),
   phone: Yup.string()
-    .matches(/^\d{10}$/, 'Debe ser un número de 10 dígitos')
-    .required('El teléfono es requerido'),
+    .matches(/^\d{10}$/, "Debe ser un número de 10 dígitos")
+    .required("El teléfono es requerido"),
   contact: Yup.string()
-    .min(3, 'Debe tener al menos 3 caracteres')
-    .required('El contacto es requerido'),
+    .min(3, "Debe tener al menos 3 caracteres")
+    .required("El contacto es requerido"),
   mail: Yup.string()
     .matches(
-      /^[^@]+@[^@]+\.[^@]+$/,
-      'Debe ser un correo válido con una sola @ y máximo dos dominios'
+      /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/,
+      "Debe ser un correo válido con una sola @",
     )
-    .required('El correo es requerido'),
+    .required("El correo es requerido"),
 });
 
 const EnterpriseForm = () => {
@@ -40,35 +40,39 @@ const EnterpriseForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      rfc: '',
-      phone: '',
-      contact: '',
-      mail: '',
+      name: "",
+      rfc: "",
+      phone: "",
+      contact: "",
+      mail: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      toast(`¡Empresa registrada exitosamente!\n
+      toast(
+        `¡Empresa registrada exitosamente!\n
           Razón Social: ${values.name}\n
           RFC: ${values.rfc.toUpperCase()}\n
           Teléfono: ${phoneCode} ${values.phone}\n
           Contacto: ${values.contact}\n
           Correo: ${values.mail}
-        `, {
-        style: {
-          borderRadius: '14px',
-          background: '#3F4F44',
-          color: '#fff',
+        `,
+        {
+          style: {
+            borderRadius: "14px",
+            background: "#3F4F44",
+            color: "#fff",
+          },
+          position: "top-right",
+          duration: 5000,
         },
-        position: 'top-right',
-        duration: 5000
-      });
+      );
     },
   });
 
   const isFormValid =
     formik.isValid &&
-    Object.keys(formik.touched).length === Object.keys(formik.initialValues).length;
+    Object.keys(formik.touched).length ===
+      Object.keys(formik.initialValues).length;
 
   const handleRfcChange = (e) => {
     const value = e.target.value.toUpperCase();
@@ -103,7 +107,7 @@ const EnterpriseForm = () => {
             helpText="RFC con homoclave"
             onChange={handleRfcChange}
             maxLength={12}
-            style={{ textTransform: 'uppercase' }}
+            style={{ textTransform: "uppercase" }}
           />
           <div className="phone-input-container relative">
             <label htmlFor="phone" className="text-lg font-semibold">
@@ -151,16 +155,18 @@ const EnterpriseForm = () => {
             type="submit"
             disabled={!formik.isValid || !formik.dirty}
             className={`p-[8px] font-semibold text-white rounded-full w-full mt-6 
-            ${formik.isValid && formik.dirty
-                ? 'bg-[#3F4F44] hover:bg-[#2C3930] cursor-pointer'
-                : 'bg-gray-400 cursor-not-allowed'}`}
+            ${
+              formik.isValid && formik.dirty
+                ? "bg-[#3F4F44] hover:bg-[#2C3930] cursor-pointer"
+                : "bg-gray-400 cursor-not-allowed"
+            }`}
           >
             Registrar Empresa
           </button>
         </div>
       </Form>
     </FormikProvider>
-  )
-}
+  );
+};
 
 export default EnterpriseForm;
